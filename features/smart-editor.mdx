@@ -1,0 +1,163 @@
+---
+title: 'SmartEditor Pro'
+description: 'AI-powered writing assistant that transforms your document creation'
+---
+
+## Overview
+
+SmartEditor Pro is DocMindLLM's flagship AI-powered writing assistant that helps you create professional documents 10x faster. With real-time suggestions, intelligent corrections, and contextual enhancements, it's like having a professional editor at your fingertips.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Real-time Suggestions" icon="wand-magic-sparkles">
+    Get intelligent writing suggestions as you type, powered by advanced language models
+  </Card>
+  <Card title="Grammar & Style" icon="spell-check">
+    Automatic grammar checking and style improvements for professional documents
+  </Card>
+  <Card title="Context Awareness" icon="brain">
+    Understands your document context to provide relevant suggestions
+  </Card>
+  <Card title="Multi-language Support" icon="language">
+    Write and translate in over 40 languages with native-level quality
+  </Card>
+</CardGroup>
+
+## How It Works
+
+<Steps>
+  <Step title="Start Writing">
+    Begin typing in the SmartEditor, and AI suggestions appear automatically
+  </Step>
+  <Step title="Accept Suggestions">
+    Press Tab to accept suggestions or continue typing to dismiss
+  </Step>
+  <Step title="Use Commands">
+    Type `/` to access powerful AI commands for rewriting, expanding, or summarizing
+  </Step>
+  <Step title="Review & Polish">
+    Use the AI assistant to review and polish your entire document
+  </Step>
+</Steps>
+
+## AI Commands
+
+Access these powerful commands by typing `/` in the editor:
+
+<AccordionGroup>
+  <Accordion title="/rewrite - Rewrite Selected Text">
+    Intelligently rewrite any selected text while maintaining your intended meaning
+    
+    ```
+    /rewrite make this more formal
+    /rewrite simplify for general audience
+    /rewrite add more detail
+    ```
+  </Accordion>
+  
+  <Accordion title="/expand - Expand Your Ideas">
+    Elaborate on your ideas with additional context and details
+    
+    ```
+    /expand add supporting arguments
+    /expand include examples
+    /expand provide more context
+    ```
+  </Accordion>
+  
+  <Accordion title="/summarize - Create Summaries">
+    Generate concise summaries of selected text or entire sections
+    
+    ```
+    /summarize in 3 bullet points
+    /summarize as executive summary
+    /summarize key takeaways
+    ```
+  </Accordion>
+  
+  <Accordion title="/translate - Translate Content">
+    Translate your content into any supported language
+    
+    ```
+    /translate to Spanish
+    /translate to Simplified Chinese
+    /translate to French (formal)
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Writing Modes
+
+SmartEditor Pro adapts to your writing style and document type:
+
+### Professional Mode
+- Formal tone and business language
+- Industry-specific terminology
+- Executive-level clarity
+
+### Academic Mode
+- Scholarly tone and citations
+- Research-focused suggestions
+- Proper academic formatting
+
+### Creative Mode
+- Flexible and expressive language
+- Storytelling enhancements
+- Creative freedom with style
+
+### Technical Mode
+- Precise technical language
+- Code-aware formatting
+- Documentation best practices
+
+## Integration
+
+SmartEditor Pro seamlessly integrates with your workflow:
+
+```javascript
+// Enable SmartEditor in your document
+const editor = await docmind.editors.create({
+  mode: 'smart',
+  language: 'en',
+  style: 'professional',
+  features: {
+    autoSuggest: true,
+    grammarCheck: true,
+    styleGuide: 'corporate'
+  }
+});
+
+// Listen for suggestions
+editor.on('suggestion', (suggestion) => {
+  console.log('AI suggests:', suggestion.text);
+});
+```
+
+## Best Practices
+
+<Info>
+  **Pro Tip**: SmartEditor learns from your writing style. The more you use it, the better it becomes at providing personalized suggestions.
+</Info>
+
+1. **Start with an outline** - Let AI help structure your thoughts
+2. **Write freely first** - Don't worry about perfection, AI will help polish
+3. **Use commands strategically** - Leverage AI commands for specific improvements
+4. **Review AI suggestions** - Always review and adapt AI suggestions to your voice
+
+## Performance Metrics
+
+Users report significant improvements with SmartEditor Pro:
+
+- **73% faster** document creation
+- **89% fewer** grammar errors
+- **2.5x more** content produced
+- **95% user** satisfaction rate
+
+## Get Started
+
+Ready to transform your writing experience?
+
+<Card title="Try SmartEditor Pro" icon="rocket" href="https://app.docmindllm.com/editor">
+  Start writing with AI assistance today
+</Card>

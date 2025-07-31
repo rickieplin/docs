@@ -1,94 +1,351 @@
 ---
 title: 'Development'
-description: 'Preview changes locally to update your docs'
+description: 'Learn how to develop with DocMindLLM SDK and APIs'
 ---
 
-<Info>
-  **Prerequisites**:
-  - Node.js version 19 or higher
-  - A docs repository with a `docs.json` file
-</Info>
+## Overview
 
-Follow these steps to install and run Mintlify on your operating system.
+DocMindLLM provides a comprehensive SDK and REST API for developers to integrate intelligent document processing into their applications.
 
-<Steps>
-<Step title="Install the Mintlify CLI">
+## SDK Installation
+
+Install the DocMindLLM SDK for your preferred language:
+
+<CodeGroup>
+
+```bash JavaScript/TypeScript
+npm install @docmindllm/sdk
+# or
+yarn add @docmindllm/sdk
+```
+
+```bash Python
+pip install docmindllm
+```
+
+```bash Go
+go get github.com/docmindllm/docmindllm-go
+```
+
+```bash Ruby
+gem install docmindllm
+```
+
+</CodeGroup>
+
+## Configuration
+
+### Environment Setup
+
+Create a `.env` file in your project root:
 
 ```bash
-npm i -g mint
-```
-</Step>
-
-<Step title="Preview locally">
-
-Navigate to your docs directory where your `docs.json` file is located, and run the following command:
-
-```bash
-mint dev
+DOCMIND_API_KEY=your_api_key_here
+DOCMIND_API_URL=https://api.docmindllm.com/v1
+DOCMIND_WORKSPACE_ID=your_workspace_id
 ```
 
-A local preview of your documentation will be available at `http://localhost:3000`.
+### Initialize the Client
 
-</Step>
-</Steps>
+<CodeGroup>
 
-## Custom ports
+```javascript JavaScript
+import { DocMindLLM } from '@docmindllm/sdk';
 
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. For example, to run Mintlify on port 3333, use this command:
-
-```bash
-mint dev --port 3333
+const client = new DocMindLLM({
+  apiKey: process.env.DOCMIND_API_KEY,
+  workspace: process.env.DOCMIND_WORKSPACE_ID
+});
 ```
 
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
+```python Python
+from docmindllm import DocMindLLM
 
-```md
-Port 3000 is already in use. Trying 3001 instead.
+client = DocMindLLM(
+    api_key=os.getenv('DOCMIND_API_KEY'),
+    workspace=os.getenv('DOCMIND_WORKSPACE_ID')
+)
 ```
 
-## Mintlify versions
+```go Go
+import "github.com/docmindllm/docmindllm-go"
 
-Please note that each CLI release is associated with a specific version of Mintlify. If your local preview does not align with the production version, please update the CLI:
-
-```bash
-npm mint update
+client := docmindllm.NewClient(
+    docmindllm.WithAPIKey(os.Getenv("DOCMIND_API_KEY")),
+    docmindllm.WithWorkspace(os.Getenv("DOCMIND_WORKSPACE_ID")),
+)
 ```
 
-## Validating links
+</CodeGroup>
 
-The CLI can assist with validating links in your documentation. To identify any broken links, use the following command:
+## Core Concepts
 
-```bash
-mint broken-links
+### Documents
+
+Documents are the primary objects in DocMindLLM:
+
+```javascript
+// Create a document
+const doc = await client.documents.create({
+  title: 'Q4 Financial Report',
+  type: 'report',
+  metadata: {
+    department: 'finance',
+    quarter: 'Q4',
+    year: 2024
+  }
+});
+
+// Update document content
+await client.documents.update(doc.id, {
+  content: 'Your document content here...'
+});
+
+// Get document
+const document = await client.documents.get(doc.id);
 ```
 
-## Deployment
+### AI Operations
 
-If the deployment is successful, you should see the following:
+Leverage AI capabilities for document enhancement:
 
-<Frame>
-  <img src="/images/checks-passed.png" alt="Screenshot of a deployment confirmation message that says All checks have passed." style={{ borderRadius: '0.5rem' }} />
-</Frame>
+```javascript
+// Enhance writing
+const enhanced = await client.ai.enhance({
+  documentId: doc.id,
+  instruction: 'Make this more concise and professional'
+});
 
-## Code formatting
+// Generate content
+const generated = await client.ai.generate({
+  prompt: 'Write an executive summary for Q4 financial results',
+  context: document.content,
+  maxTokens: 500
+});
 
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
+// Extract insights
+const insights = await client.ai.analyze({
+  documentId: doc.id,
+  analysisType: 'key-points'
+});
+```
 
-## Troubleshooting
+### Templates
+
+Work with document templates:
+
+```javascript
+// List available templates
+const templates = await client.templates.list({
+  type: 'report',
+  category: 'business'
+});
+
+// Create document from template
+const fromTemplate = await client.documents.createFromTemplate({
+  templateId: 'tmpl_financial_report',
+  data: {
+    company: 'Acme Corp',
+    period: 'Q4 2024',
+    revenue: 1500000
+  }
+});
+```
+
+## Advanced Features
+
+### Batch Processing
+
+Process multiple documents efficiently:
+
+```javascript
+const batch = await client.batch.create({
+  operations: [
+    {
+      type: 'enhance',
+      documentIds: ['doc_1', 'doc_2', 'doc_3'],
+      instruction: 'Fix grammar and improve clarity'
+    },
+    {
+      type: 'translate',
+      documentIds: ['doc_4', 'doc_5'],
+      targetLanguage: 'es'
+    }
+  ]
+});
+
+// Check batch status
+const status = await client.batch.getStatus(batch.id);
+```
+
+### Webhooks
+
+Set up webhooks for real-time updates:
+
+```javascript
+// Register webhook
+const webhook = await client.webhooks.create({
+  url: 'https://your-app.com/webhooks/docmind',
+  events: ['document.created', 'document.updated', 'ai.completed'],
+  secret: 'your_webhook_secret'
+});
+
+// Verify webhook signature (in your webhook handler)
+const isValid = client.webhooks.verifySignature(
+  request.body,
+  request.headers['x-docmind-signature'],
+  'your_webhook_secret'
+);
+```
+
+### Custom Models
+
+Use custom AI models for specialized tasks:
+
+```javascript
+// Configure custom model
+const customModel = await client.models.create({
+  name: 'legal-document-analyzer',
+  baseModel: 'docmind-large',
+  finetuneData: 'gs://your-bucket/training-data'
+});
+
+// Use custom model
+const analysis = await client.ai.analyze({
+  documentId: doc.id,
+  modelId: customModel.id,
+  analysisType: 'legal-compliance'
+});
+```
+
+## Error Handling
+
+Properly handle errors in your application:
+
+```javascript
+try {
+  const document = await client.documents.create({
+    title: 'New Document'
+  });
+} catch (error) {
+  if (error.code === 'RATE_LIMIT_EXCEEDED') {
+    // Handle rate limiting
+    console.log(`Rate limited. Retry after ${error.retryAfter} seconds`);
+  } else if (error.code === 'INVALID_REQUEST') {
+    // Handle validation errors
+    console.log('Invalid request:', error.message);
+  } else {
+    // Handle other errors
+    console.error('Unexpected error:', error);
+  }
+}
+```
+
+## Best Practices
 
 <AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
-
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of the CLI: `npm remove -g mint`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall the CLI: `npm i -g mint`
+  <Accordion title="API Key Security">
+    - Never commit API keys to version control
+    - Use environment variables or secret management services
+    - Rotate keys regularly
+    - Use restricted keys for production
   </Accordion>
-
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the `~/.mintlify` folder. Then run `mint dev` again.
+  <Accordion title="Rate Limiting">
+    - Implement exponential backoff for retries
+    - Use batch operations when possible
+    - Cache responses when appropriate
+    - Monitor your usage dashboard
+  </Accordion>
+  <Accordion title="Performance">
+    - Use pagination for large result sets
+    - Implement proper caching strategies
+    - Use webhooks instead of polling
+    - Optimize document sizes
   </Accordion>
 </AccordionGroup>
 
-Curious about what changed in the latest CLI version? Check out the [CLI changelog](https://www.npmjs.com/package/mintlify?activeTab=versions).
+## Examples
+
+### Full Example: Report Generator
+
+```javascript
+import { DocMindLLM } from '@docmindllm/sdk';
+
+async function generateMonthlyReport(data) {
+  const client = new DocMindLLM({
+    apiKey: process.env.DOCMIND_API_KEY
+  });
+
+  try {
+    // Create document from template
+    const doc = await client.documents.createFromTemplate({
+      templateId: 'tmpl_monthly_report',
+      data: {
+        month: data.month,
+        metrics: data.metrics
+      }
+    });
+
+    // Enhance with AI
+    await client.ai.enhance({
+      documentId: doc.id,
+      instruction: 'Add executive summary and key insights'
+    });
+
+    // Generate charts
+    const charts = await client.visualizations.create({
+      documentId: doc.id,
+      type: 'auto',
+      data: data.metrics
+    });
+
+    // Export as PDF
+    const pdf = await client.documents.export({
+      documentId: doc.id,
+      format: 'pdf',
+      includeCharts: true
+    });
+
+    return {
+      documentId: doc.id,
+      pdfUrl: pdf.url
+    };
+  } catch (error) {
+    console.error('Report generation failed:', error);
+    throw error;
+  }
+}
+```
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Complete API documentation
+  </Card>
+  <Card
+    title="GitHub Examples"
+    icon="github"
+    href="https://github.com/docmindllm/examples"
+  >
+    Example projects and code samples
+  </Card>
+  <Card
+    title="Developer Forum"
+    icon="comments"
+    href="https://forum.docmindllm.com"
+  >
+    Get help from the community
+  </Card>
+  <Card
+    title="Status Page"
+    icon="signal"
+    href="https://status.docmindllm.com"
+  >
+    API status and uptime
+  </Card>
+</CardGroup>

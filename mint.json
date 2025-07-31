@@ -1,0 +1,138 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "DocMindLLM Documentation",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.svg",
+  "colors": {
+    "primary": "#0F766E",
+    "light": "#11c4d4",
+    "dark": "#0F766E",
+    "anchors": {
+      "from": "#0F766E",
+      "to": "#11c4d4"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@docmindllm.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.docmindllm.com"
+  },
+  "tabs": [
+    {
+      "name": "Documentation",
+      "url": "docs"
+    },
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "Product",
+      "icon": "browser",
+      "url": "https://docmindllm.com"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://docmindllm.com/slack"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://docmindllm.com/blog"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "index",
+        "quickstart",
+        "development"
+      ]
+    },
+    {
+      "group": "Core Features",
+      "pages": [
+        "features/smart-editor",
+        "features/data-insight",
+        "features/multimodal",
+        "features/ai-assistant",
+        "features/teamspace"
+      ]
+    },
+    {
+      "group": "Writing Content",
+      "pages": [
+        "essentials/markdown",
+        "essentials/code",
+        "essentials/images",
+        "essentials/reusable-snippets"
+      ]
+    },
+    {
+      "group": "Customization",
+      "pages": [
+        "essentials/settings",
+        "essentials/navigation"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction"
+      ]
+    },
+    {
+      "group": "Documents",
+      "pages": [
+        "api-reference/endpoint/create",
+        "api-reference/endpoint/get",
+        "api-reference/endpoint/update",
+        "api-reference/endpoint/delete"
+      ]
+    },
+    {
+      "group": "AI Operations",
+      "pages": [
+        "api-reference/endpoint/enhance",
+        "api-reference/endpoint/analyze",
+        "api-reference/endpoint/translate"
+      ]
+    },
+    {
+      "group": "Webhooks",
+      "pages": [
+        "api-reference/endpoint/webhook"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/docmindllm",
+    "github": "https://github.com/docmindllm",
+    "linkedin": "https://www.linkedin.com/company/docmindllm"
+  },
+  "analytics": {
+    "gtm": {
+      "tagId": "GTM-XXXXXX"
+    }
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "search": {
+    "prompt": "Search documentation..."
+  }
+}
